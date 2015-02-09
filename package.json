@@ -1,0 +1,13 @@
+{
+  "name": "custom-invisibles",
+  "main": "./lib/custom-invisibles",
+  "version": "0.1.0",
+  "description": "Toggle and customize invisible characters individually",
+  "repository": "https://github.com/saltire/custom-invisibles",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
