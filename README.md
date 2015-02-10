@@ -12,3 +12,5 @@ These include:
 
 With this package you can turn any of these on and off individually,
 or replace them with custom characters.
+
+Bug reports appreciated!

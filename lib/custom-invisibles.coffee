@@ -46,4 +46,6 @@ module.exports =
     atom.config.observe 'custom-invisibles.' + char + 'Char', => @setChar(char)
 
   activate: ->
-    @observeChar(char) for char in ['cr', 'eol', 'space', 'tab']
+    chars = ['cr', 'eol', 'space', 'tab']
+    @observeChar(char) for char in chars
+    atom.config.observe 'editor.showInvisibles', => @setChar(char) for char in chars
