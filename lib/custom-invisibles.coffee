@@ -35,17 +35,27 @@ module.exports =
       type: ['boolean', 'string']
       default: '\u00bb'
 
-  setChar: (char) ->
-    atom.config.set('editor.invisibles.' + char,
-      if atom.config.get('custom-invisibles.' + char + 'Active')
-      then atom.config.get('custom-invisibles.' + char + 'Char')
-      else '')
-
   observeChar: (char) ->
-    atom.config.observe 'custom-invisibles.' + char + 'Active', => @setChar(char)
-    atom.config.observe 'custom-invisibles.' + char + 'Char', => @setChar(char)
+    # set character from editor settings
+    @subEditorChar = atom.config.observe 'editor.invisibles.' + char, (value) ->
+      if value isnt ' ' then atom.config.set 'custom-invisibles.' + char + 'Char', value
+      atom.config.set 'custom-invisibles.' + char + 'Active', value isnt ' '
+
+    # show/hide character
+    @subCheck = atom.config.observe 'custom-invisibles.' + char + 'Active', (active) ->
+      value = atom.config.get 'custom-invisibles.' + char + 'Char'
+      atom.config.set 'editor.invisibles.' + char, if active then value else ' '
+
+    # set custom character
+    @subChar = atom.config.observe 'custom-invisibles.' + char + 'Char', (value) ->
+      if atom.config.get 'custom-invisibles.' + char + 'Active'
+        atom.config.set 'editor.invisibles.' + char, value
 
   activate: ->
     chars = ['cr', 'eol', 'space', 'tab']
     @observeChar(char) for char in chars
-    atom.config.observe 'editor.showInvisibles', => @setChar(char) for char in chars
+
+  deactivate: ->
+    @subCheck.dispose
+    @subChar.dispose
+    @subEditorChar.dispose
