@@ -2,6 +2,8 @@
 
 Toggle and customize invisible characters individually.
 
+**For `custom-invisibles` to work, please make sure you have "Show Invisibles" enabled under general settngs.**
+
 The default Atom settings have a single "Show Invisibles" option to toggle all invisible characters.
 These include:
 
